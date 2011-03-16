@@ -50,7 +50,7 @@ class Twitter extends AbstractService
      */
     public function __construct()
     {
-        $this->getCache()->setLifetime(120);
+        $this->getCache()->setLifetime(3600);
     }
     
     /**

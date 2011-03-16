@@ -25,6 +25,14 @@ use HttpRequest,
 class Identica extends AbstractService
 {
     /**
+     * Set up the cache lifetime for this service
+     */
+    public function __construct()
+    {
+        $this->getCache()->setLifetime(null);
+    }
+    
+    /**
      * Gets all users on identica that have the same username as the given 
      * twitter user's followees
      * 
