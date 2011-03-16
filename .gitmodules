@@ -1,0 +1,6 @@
+[submodule "vendor/Zend"]
+	path = vendor/Zend
+	url = git://github.com/epixa/Zend-Framework-v1-Mirror.git
+[submodule "vendor/Epixa"]
+	path = vendor/Epixa
+	url = git://github.com/epixa/Epixa.git

@@ -1,0 +1,61 @@
+<?php
+
+return array(
+    'phpSettings' => array(
+        'display_startup_errors' => false,
+        'display_errors' => false,
+        'date' => array(
+            'timezone' => 'America/New_York'
+        )
+    ),
+    'bootstrap' => array(
+        'path' => APPLICATION_PATH . '/Bootstrap.php'
+    ),
+    'resources' => array(
+        'frontController' => array(
+            'moduleDirectory' => APPLICATION_PATH,
+            'env' => APPLICATION_ENV,
+            'actionHelperPaths' => array(
+                'Epixa\\Controller\\Helper\\' => 'Epixa/Controller/Helper'
+            )
+        ),
+        'modules' => array(),
+        'router' => array(
+            'file' => APPLICATION_ROOT . '/config/routes.php'
+        ),
+        'view' => array(),
+        'layout' => array(
+            'layoutPath' => APPLICATION_ROOT . '/layouts',
+            'layout' => 'default'
+        ),
+        'cacheManager' => array(
+            'service' => array(
+                'frontend' => array(
+                    'name' => 'Core',
+                    'options' => array(
+                        'lifetime' => 7200,
+                        'automatic_serialization' => true
+                    )
+                ),
+                'backend' => array(
+                    'name' => 'File',
+                    'options' => array()
+                )
+            )
+        )
+    ),
+    'services' => array(
+        'twitter' => array(
+            'url' => 'http://api.twitter.com/1',
+            'oauth' => array(
+                'callbackUrl' => 'http://exodus.orchestra.io/begin',
+                'siteUrl' => 'https://api.twitter.com/oauth',
+                'consumerKey' => 'TWITTER_CONSUMER_KEY',
+                'consumerSecret' => 'TWITTER_CONSUMER_SECRET'
+            )
+        ),
+        'identica' => array(
+            'url' => 'http://identi.ca/api'
+        )
+    )
+);

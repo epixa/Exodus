@@ -1,0 +1,27 @@
+
+<h1>Users followed by <?php echo $this->escape($this->username); ?></h1>
+
+<?php if (count($this->users) == 0): ?>
+    <p>We could not find any users that this person follows on identica</p>
+<?php else: ?>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Twitter</th>
+                <th>Identica</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($this->users as $user): ?>
+            <tr>
+                <td><?php echo $this->escape($user->username); ?></td>
+                <td><?php echo $this->escape($user->name); ?></td>
+                <td><a href="<?php echo $this->twitterLink($user->username); ?>">Link</a></td>
+                <td><a href="<?php echo $this->identicaLink($user->username); ?>">Link</a></td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
