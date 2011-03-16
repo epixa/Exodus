@@ -65,7 +65,7 @@ class Identica extends AbstractService
         
         $key = sha1(serialize(array('identica-username-exists' => $username)));
 
-        if(($exists = $cache->load($key)) === false) {
+        if (($code = $cache->load($key)) === false) {
             $config = $this->getConfig()->identica;
             $request = new HttpRequest($config->url . '/users/show.json', HttpRequest::METH_HEAD);
             $request->setQueryData(array(
@@ -73,20 +73,18 @@ class Identica extends AbstractService
             ));
             $response = $request->send();
 
-            if ($response->responseCode == 200) {
-                $exists = true;
-            } else if ($response->responseCode == 404) {
-                $exists = false;
-            }  else {
+            if ($response->responseCode != 200 && $response->responseCode != 404) {
                 throw new RuntimeException(sprintf(
                     'Could not determine the existence of identica user `%s`: %s', 
                     $username, $response->responseStatus
                 ));
             }
-
-            $cache->save($exists, $key);
+            
+            $code = $response->responseCode;
+            
+            $cache->save($code, $key);
         }
         
-        return $exists;
+        return $code == 200 ? true : false;
     }
 }
