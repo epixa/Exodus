@@ -2,12 +2,23 @@
 <html>
 <head>
     <?php echo $this->headTitle('Followers Intersected') . "\n"; ?>
-    <?php echo $this->headLink() . "\n"; ?>
+    <?php echo $this->headLink()->prependStylesheet('/lib/css/screen.css') . "\n"; ?>
     <?php echo $this->headScript() . "\n"; ?>
 </head>
 <body>
+    
+    <header>
+        <h1>Exodus</h1>
+    </header>
 
-<?php echo $this->layout()->content . PHP_EOL ?>
+    <?php echo $this->layout()->content . PHP_EOL ?>
+    
+    <footer>
+        <ul>
+            <li class="author">Created by <a href="http://epixa.com">Court Ewing</a></li>
+            <li class="host">Hosted on <a href="http://orchestra.io">Orchestra.io</a></li>
+        </ul>
+    </footer>
     
 </body>
 </html>

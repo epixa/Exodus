@@ -1,27 +1,34 @@
 
-<h1>Users followed by <?php echo $this->escape($this->username); ?></h1>
-
-<?php if (count($this->users) == 0): ?>
-    <p>We could not find any users that this person follows on identica</p>
-<?php else: ?>
-    <table>
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Name</th>
-                <th>Twitter</th>
-                <th>Identica</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($this->users as $user): ?>
-            <tr>
-                <td><?php echo $this->escape($user->username); ?></td>
-                <td><?php echo $this->escape($user->name); ?></td>
-                <td><a href="<?php echo $this->twitterLink($user->username); ?>">Link</a></td>
-                <td><a href="<?php echo $this->identicaLink($user->username); ?>">Link</a></td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php endif; ?>
+    <section>
+        <h1>Users followed by <?php echo $this->escape($this->username); ?></h1>
+        
+        <?php if (count($this->users) == 0): ?>
+            <p>We could not find any users that this person follows on identica</p>
+        <?php else: ?>
+            <p><?php echo $this->escape($this->username); ?> follows 
+               <?php echo count($this->users) ?> people on twitter that also 
+               have accounts on identi.ca.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Twitter</th>
+                        <th>Identi.ca</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($this->users as $user): ?>
+                    <tr>
+                        <td><?php echo $this->escape($user->username); ?></td>
+                        <td><?php echo $this->escape($user->name); ?></td>
+                        <td><a href="<?php echo $this->twitterLink($user->username); ?>">Link</a></td>
+                        <td><a href="<?php echo $this->identicaLink($user->username); ?>">Link</a></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php endif; ?>
+            
+    </section>

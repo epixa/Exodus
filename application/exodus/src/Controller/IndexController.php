@@ -79,6 +79,10 @@ class IndexController extends AbstractController
             return;
         }
         
+        if ($twitterService->isAuthenticated()) {
+            $this->_helper->redirector->gotoRouteAndExit(array(), 'begin', true);
+        }
+        
         $url = $this->view->url(array('u' => $username), 'begin', true);
         $twitterService->beginAuthentication($this->_createCallbackUrl($url));
         return;

@@ -1,5 +1,46 @@
-<p>You'll need to auth.</p>
 
-<form method="post" action="<?php echo $this->url(array('u' => $this->username), 'auth', true); ?>">
-    <input type="submit" value="Authenticate" />
-</form>
+    <section>
+        <h1>Authenticate with Twitter</h1>
+        
+        <p>In order to use Exodus, you will need to authenticate with Twitter.</p>
+        
+        <p>Actually, that is only partially accurate.  Exodus <em>can</em> be 
+           used without any authentication requirements, but this particular 
+           install requires it.</p>
+        
+        <section>
+            <h2>Why?</h2>
+
+            <p>It all comes down to rate limits.  Without authentication, twitter 
+               restricts API usage to a maximum of 150 requests per hour <strong>per 
+               server</strong>. On a public facing app like this, that limit would 
+               be exhausted rapidly.</p>
+
+            <p>Fortunately, if requests are made under 
+               Twitter's OAuth authentication, then the rate limit is changed to 350
+               requests per hour <strong>per user</strong>.  This way, if one person
+               spams 350 API requests in an hour, their particular account will 
+               reach the hourly rate limit, but no one else using Exodus will be
+               limited.</p>
+        </section>
+        
+        <section>
+            <h2>How many requests are we talking here?</h2>
+
+            <p>When you retrieve a specific user from Exodus, it will query the 
+               Twitter API for up to 100 people that the user follows in each
+               request.  For example, If a user follows 99 people, then a single 
+               request is made; if a user follows 201 people, then three 
+               requests will be made.</p>
+            
+            <p>The bad news is that this number is a hard cap set in place by 
+               Twitter themselves, so there is no more efficient way for Exodus 
+               to pull this information.  The good news is that these requests 
+               are all performed by the server, so there is no additional work 
+               for you.</p>
+        </section>
+
+        <form method="post" action="<?php echo $this->url(array('u' => $this->username), 'auth', true); ?>">
+            <input type="submit" value="Authenticate" />
+        </form>
+    </section>
