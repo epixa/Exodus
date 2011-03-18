@@ -257,7 +257,7 @@ class Twitter extends AbstractService
      * @param  string $username 
      * @return array
      */
-    public function getFollowersByUsername($username)
+    public function getFriendsByUsername($username)
     {
         $cache = $this->getCache();
         
@@ -265,7 +265,7 @@ class Twitter extends AbstractService
         
         if(($collection = $cache->load($key)) === false) {
             $collection = new FollowerCollection();
-            $this->_loadFollowers($collection, $username);
+            $this->_loadFriends($collection, $username);
             $cache->save($collection, $key);
         }
         
@@ -290,7 +290,7 @@ class Twitter extends AbstractService
      * @param string             $username
      * @param integer            $cursor 
      */
-    protected function _loadFollowers(FollowerCollection $collection, $username, $cursor = -1)
+    protected function _loadFriends(FollowerCollection $collection, $username, $cursor = -1)
     {
         $config = $this->getConfig()->twitter;
         
@@ -336,7 +336,7 @@ class Twitter extends AbstractService
         if (!empty($body->next_cursor)) {
             $nextCursor = $body->next_cursor;
             unset($request, $response, $body);
-            $this->_loadFollowers($collection, $username, $nextCursor);
+            $this->_loadFriends($collection, $username, $nextCursor);
         }
     }
 }

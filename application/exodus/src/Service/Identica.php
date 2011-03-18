@@ -42,7 +42,7 @@ class Identica extends AbstractService
     public function twitterIntersect($username)
     {
         $twitterService = new Twitter();
-        $followers = $twitterService->getFollowersByUsername($username);
+        $followers = $twitterService->getFriendsByUsername($username);
         
         foreach ($followers as $key => $follower) {
             if (!$this->usernameExists($follower->username)) {
