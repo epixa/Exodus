@@ -3,7 +3,8 @@
  * Epixa - Exodus
  */
 
-use Epixa\Application\Bootstrap as BaseBootstrap;
+use Epixa\Application\Bootstrap as BaseBootstrap,
+    Zend_Config as Config;
 
 /**
  * Bootstrap the application
@@ -21,6 +22,17 @@ class Bootstrap extends BaseBootstrap
         if (isset($options['google']['analytics']['account'])) {
             $view = $this->bootstrap('view')->getResource('view');
             $view->googleAnalyticsAccount = $options['google']['analytics']['account'];
+        }
+    }
+    
+    public function _initDebug()
+    {
+        $options = $this->getOptions();
+        if (!empty($options['debug'])) {
+            $config = new Config($options['debug']);
+            
+            $view = $this->bootstrap('view')->getResource('view');
+            $view->debug = $config;
         }
     }
 }

@@ -16,6 +16,9 @@
                         <th>Name</th>
                         <th>Twitter</th>
                         <th>Identi.ca</th>
+                        <?php if ($this->debug && $this->debug->showExodusLinks): ?>
+                        <th>Exodus</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,6 +28,9 @@
                         <td><?php echo $this->escape($user->name); ?></td>
                         <td><a href="<?php echo $this->twitterLink($user->username); ?>">Link</a></td>
                         <td><a href="<?php echo $this->identicaLink($user->username); ?>">Link</a></td>
+                        <?php if ($this->debug && $this->debug->showExodusLinks): ?>
+                        <td><a href="<?php echo $this->url(array('u' => $user->username), 'load', true); ?>">Link</a></td>
+                        <?php endif; ?>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

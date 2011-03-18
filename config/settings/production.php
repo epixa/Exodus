@@ -49,6 +49,9 @@ return array(
             'account' => '' // UA-XXXXXXX-X
         )
     ),
+    'debug' => array(
+        'showExodusLinks' => false // enable to show an exodus link for each person on friends table
+    ),
     'services' => array(
         'twitter' => array(
             'url' => 'https://api.twitter.com',
