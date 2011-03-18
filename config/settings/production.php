@@ -44,10 +44,15 @@ return array(
             )
         )
     ),
+    'google' => array(
+        'analytics' => array(
+            'account' => '' // UA-XXXXXXX-X
+        )
+    ),
     'services' => array(
         'twitter' => array(
             'url' => 'https://api.twitter.com',
-            'oauth' => array(
+            'oauth' => array( // remove or unset entire oauth array to disable
                 'callbackUrl' => 'http://exodus.orchestra.io/begin',
                 'siteUrl' => 'https://api.twitter.com/oauth',
                 'consumerKey' => 'TWITTER_CONSUMER_KEY',

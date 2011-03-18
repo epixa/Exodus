@@ -14,4 +14,13 @@ use Epixa\Application\Bootstrap as BaseBootstrap;
  * @author    Court Ewing (court@epixa.com)
  */
 class Bootstrap extends BaseBootstrap
-{}
+{
+    public function _initAnalytics()
+    {
+        $options = $this->getOptions();
+        if (isset($options['google']['analytics']['account'])) {
+            $view = $this->bootstrap('view')->getResource('view');
+            $view->googleAnalyticsAccount = $options['google']['analytics']['account'];
+        }
+    }
+}

@@ -7,6 +7,7 @@ $config['phpSettings']['display_errors']         = true;
 
 $config['resources']['cacheManager']['service']['backend']['options']['cache_dir'] = APPLICATION_ROOT . '/cache';
 
+unset($config['google']['analytics']['account']);
 unset($config['services']['twitter']['oauth']);
 
 return $config;
