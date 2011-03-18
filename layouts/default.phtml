@@ -6,6 +6,24 @@
     <?php echo $this->headScript() . "\n"; ?>
 </head>
 <body>
+    <!--[if IE lte 8]>
+    <script type="text/javascript">
+        document.createElement("header");
+        document.createElement("footer");
+        document.createElement("section"); 
+        document.createElement("aside");
+        document.createElement("nav");
+        document.createElement("article"); 
+        document.createElement("hgroup"); 
+        document.createElement("time");
+    </script>
+    <noscript>
+         <strong>Warning!</strong>
+         Because your browser does not support HTML5, some elements are 
+         simulated using Javascript.  Unfortunately your browser has disabled
+         scripting. Please enable it in order to render this page.
+    </noscript>
+    <![endif]-->
     
     <header>
         <hgroup>

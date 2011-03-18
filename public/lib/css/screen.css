@@ -8,7 +8,7 @@ a {
 }
 
 /* For firefox and ie; how cute */
-header, footer, section {
+section, article, aside, footer, header, nav, hgroup {
     display: block;
 }
 
