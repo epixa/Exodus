@@ -58,3 +58,11 @@ If you are installing exodus for public use, you should enable OAuth.
 Authenticated requests to Twitter have a rate limit of 350 requests per hour per 
 user.  In other words, the burden of rate limits is shifted to the people using 
 your application rather than the application itself.
+
+--------------------------------------------------------------------------------
+
+Installation
+
+1. Clone this repo
+2. Add or remove oauth settings to config/settings/<environment>.php
+3. If you specify a specific directory for filesystem caching, make it writable
