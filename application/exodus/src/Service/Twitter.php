@@ -8,6 +8,7 @@ namespace Exodus\Service;
 use HttpRequest,
     Exodus\Model\User as UserModel,
     Exodus\Collection\Follower as FollowerCollection,
+    Epixa\Service\Twitter\RestApi as TwitterRestApi,
     Zend_Cache as Cache,
     Zend_Session_Namespace as SessionNamespace,
     Zend_Oauth as Oauth,
@@ -263,11 +264,11 @@ class Twitter extends AbstractService
         
         $key = sha1(serialize(array('twitter-friends-of-username' => $username)));
         
-        if (($collection = $cache->load($key)) === false) {
+        //if (($collection = $cache->load($key)) === false) {
             $collection = new FollowerCollection();
             $this->_loadFriends($collection, $username);
-            $cache->save($collection, $key);
-        }
+            //$cache->save($collection, $key);
+        //}
         
         return $collection;
     }
@@ -294,24 +295,16 @@ class Twitter extends AbstractService
     {
         $config = $this->getConfig()->twitter;
         
-        $url = $config->url . '/statuses/friends.json';
-        $method = HttpClient::GET;
-        
         $accessToken = $this->getAccessToken();
-        if ($accessToken && $config->oauth) {
-            $options = $config->oauth->toArray();
-            $options['requestScheme'] = Oauth::REQUEST_SCHEME_HEADER;
-            $client = $accessToken->getHttpClient($options);
-        } else {
-            $client = new HttpClient();
-        }
+        $twitter = new TwitterRestApi(array(
+            'accessToken' => $config->oauth ? $accessToken : null
+        ));
         
-        $client->setUri($url);
-        $client->setMethod($method);
-        $client->setParameterGet('screen_name', $username);
-        $client->setParameterGet('cursor', $cursor);
-        
-        $response = $client->request();
+        $body = $twitter->user->friends(array(
+            'screen_name' => $username,
+            'cursor' => $cursor
+        ));
+        $response = $twitter->getLocalHttpClient()->getLastResponse();
         
         if ($response->getStatus() == 404) {
             throw new NotFoundException(sprintf('Twitter user `%s` was not found', $username));
@@ -321,21 +314,19 @@ class Twitter extends AbstractService
             throw new RuntimeException(sprintf('Error loading twitter user: %s', $response->getMessage()));
         }
         
-        $body = json_decode($response->getBody());
-        
-        if (isset($body->users)) {
-            foreach($body->users as $user) {
+        if ($body->users->user->count() > 0) {
+            foreach($body->users->user as $user) {
                 $follower = new UserModel();
-                $follower->id = $user->id;
-                $follower->name = $user->name;
-                $follower->username = $user->screen_name;
+                $follower->id = (int)$user->id;
+                $follower->name = (string)$user->name;
+                $follower->username = (string)$user->screen_name;
                 $collection->add($follower);
             }
         }
         
-        if (!empty($body->next_cursor)) {
-            $nextCursor = $body->next_cursor;
-            unset($request, $response, $body);
+        $nextCursor = (int)$body->next_cursor;
+        if ($nextCursor != 0) {
+            unset($response, $body);
             $this->_loadFriends($collection, $username, $nextCursor);
         }
     }
