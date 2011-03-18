@@ -1,6 +1,6 @@
 <?php
 /**
- * Epixa - Cards
+ * Epixa - Exodus
  */
 
 namespace Exodus\View\Helper;
@@ -12,7 +12,7 @@ use Zend_View_Helper_Abstract as AbstractViewHelper;
  * @package    Exodus
  * @subpackage View\Helper
  * @copyright  2011 epixa.com - Court Ewing
- * @license    http://github.com/epixa/Cards/blob/master/LICENSE New BSD
+ * @license    http://github.com/epixa/Exodus/blob/master/LICENSE New BSD
  * @author     Court Ewing (court@epixa.com)
  */
 class TwitterLink extends AbstractViewHelper

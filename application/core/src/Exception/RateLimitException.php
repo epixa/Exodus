@@ -1,6 +1,6 @@
 <?php
 /**
- * Epixa - Cards
+ * Epixa - Exodus
  */
 
 namespace Core\Exception;
@@ -14,7 +14,7 @@ use RuntimeException;
  * @package    Core
  * @subpackage Exception
  * @copyright  2011 epixa.com - Court Ewing
- * @license    http://github.com/epixa/Cards/blob/master/LICENSE New BSD
+ * @license    http://github.com/epixa/Exodus/blob/master/LICENSE New BSD
  * @author     Court Ewing (court@epixa.com)
  */
 class RateLimitException extends RuntimeException

@@ -1,6 +1,6 @@
 <?php
 /**
- * Epixa - Cards
+ * Epixa - Exodus
  */
 
 namespace Core\Controller;
@@ -14,7 +14,7 @@ use Epixa\Controller\AbstractController;
  * @package    Core
  * @subpackage Controller
  * @copyright  2011 epixa.com - Court Ewing
- * @license    http://github.com/epixa/Cards/blob/master/LICENSE New BSD
+ * @license    http://github.com/epixa/Exodus/blob/master/LICENSE New BSD
  * @author     Court Ewing (court@epixa.com)
  */
 class ErrorController extends AbstractController
