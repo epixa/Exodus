@@ -264,11 +264,11 @@ class Twitter extends AbstractService
         
         $key = sha1(serialize(array('twitter-friends-of-username' => $username)));
         
-        //if (($collection = $cache->load($key)) === false) {
+        if (($collection = $cache->load($key)) === false) {
             $collection = new FollowerCollection();
             $this->_loadFriends($collection, $username);
-            //$cache->save($collection, $key);
-        //}
+            $cache->save($collection, $key);
+        }
         
         return $collection;
     }
