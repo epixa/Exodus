@@ -10,9 +10,11 @@ use HttpRequest,
     Exodus\Collection\Follower as FollowerCollection,
     Zend_Cache as Cache,
     Zend_Session_Namespace as SessionNamespace,
+    Zend_Oauth as Oauth,
     Zend_Oauth_Consumer as OauthConsumer,
     Zend_Oauth_Token_Request as RequestToken,
     Zend_Oauth_Token_Access as AccessToken,
+    Zend_Http_Client as HttpClient,
     Core\Exception\RateLimitException,
     Epixa\Exception\ConfigException,
     Epixa\Exception\NotFoundException,
@@ -123,7 +125,7 @@ class Twitter extends AbstractService
     /**
      * Gets the current access token
      * 
-     * @return null|string
+     * @return null|AccessToken
      */
     public function getAccessToken()
     {
@@ -153,7 +155,7 @@ class Twitter extends AbstractService
     /**
      * Gets the current request token
      * 
-     * @return null|string
+     * @return null|RequestToken
      */
     public function getRequestToken()
     {
@@ -233,6 +235,7 @@ class Twitter extends AbstractService
         }
         
         $consumer = $this->getOauthConsumer();
+        
         $accessToken = $consumer->getAccessToken($params, $requestToken);
         
         $this->clearAuthentication();
@@ -259,14 +262,24 @@ class Twitter extends AbstractService
         $cache = $this->getCache();
         
         $key = sha1(serialize(array('twitter-friends-of-username' => $username)));
-
-        if(($collection = $cache->load($key)) === false) {
+        
+        //if(($collection = $cache->load($key)) === false) {
             $collection = new FollowerCollection();
             $this->_loadFollowers($collection, $username);
-            $cache->save($collection, $key);
-        }
+            //$cache->save($collection, $key);
+        //}
         
         return $collection;
+    }
+    
+    /**
+     * Creates a new, unique pauth nonce
+     * 
+     * @return string
+     */
+    public function createNonce()
+    {
+        return sha1(microtime() . mt_rand()) . uniqid();
     }
     
     
@@ -280,19 +293,32 @@ class Twitter extends AbstractService
     protected function _loadFollowers(FollowerCollection $collection, $username, $cursor = -1)
     {
         $config = $this->getConfig()->twitter;
-        $request = new HttpRequest($config->url . '/statuses/friends.json', HttpRequest::METH_GET);
-        $request->setQueryData(array(
-            'screen_name' => $username,
-            'cursor' => $cursor
-        ));
-        $response = $request->send();
         
-        if ($response->responseCode == 404) {
+        $url = $config->url . '/statuses/friends.json';
+        $method = HttpClient::GET;
+        
+        $accessToken = $this->getAccessToken();
+        if ($accessToken && $config->oauth) {
+            $options = $config->oauth->toArray();
+            $options['requestScheme'] = Oauth::REQUEST_SCHEME_HEADER;
+            $client = $accessToken->getHttpClient($options);
+        } else {
+            $client = new HttpClient();
+        }
+        
+        $client->setUri($url);
+        $client->setMethod($method);
+        $client->setParameterGet('screen_name', $username);
+        $client->setParameterGet('cursor', $cursor);
+        
+        $response = $client->request();
+        
+        if ($response->getStatus() == 404) {
             throw new NotFoundException(sprintf('Twitter user `%s` was not found', $username));
-        } else if ($response->responseCode == 400) {
+        } else if ($response->getStatus() == 400) {
             throw new RateLimitException('You have exceeded the twitter rate limit');
-        } else if ($response->responseCode != 200) {
-            throw new RuntimeException(sprintf('Error loading twitter user: %s', $response->responseStatus));
+        } else if ($response->getStatus() != 200) {
+            throw new RuntimeException(sprintf('Error loading twitter user: %s', $response->getMessage()));
         }
         
         $body = json_decode($response->getBody());

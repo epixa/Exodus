@@ -46,7 +46,7 @@ return array(
     ),
     'services' => array(
         'twitter' => array(
-            'url' => 'http://api.twitter.com/1',
+            'url' => 'https://api.twitter.com',
             'oauth' => array(
                 'callbackUrl' => 'http://exodus.orchestra.io/begin',
                 'siteUrl' => 'https://api.twitter.com/oauth',
