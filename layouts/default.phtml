@@ -4,19 +4,13 @@
     <?php echo $this->headTitle('Exodus') . "\n"; ?>
     <?php echo $this->headLink()->prependStylesheet('/lib/css/screen.css') . "\n"; ?>
     <?php echo $this->headScript() . "\n"; ?>
+    
+    <!--[if lte IE 8]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 </head>
 <body>
     <!--[if lte IE 8]>
-    <script type="text/javascript">
-        document.createElement("header");
-        document.createElement("footer");
-        document.createElement("section"); 
-        document.createElement("aside");
-        document.createElement("nav");
-        document.createElement("article"); 
-        document.createElement("hgroup"); 
-        document.createElement("time");
-    </script>
     <noscript>
          <strong>Warning!</strong>
          Because your browser does not support HTML5, some elements are 
