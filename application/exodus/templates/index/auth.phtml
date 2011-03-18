@@ -9,7 +9,7 @@
            install requires it.</p>
         
         <section>
-            <h2>Why?</h2>
+            <h1>Why?</h1>
 
             <p>It all comes down to rate limits.  Without authentication, twitter 
                restricts API usage to a maximum of 150 requests per hour <strong>per 
@@ -25,7 +25,7 @@
         </section>
         
         <section>
-            <h2>How many requests are we talking here?</h2>
+            <h1>How many requests are we talking here?</h1>
 
             <p>When you retrieve a specific user from Exodus, it will query the 
                Twitter API for up to 100 people that the user follows in each
@@ -41,6 +41,6 @@
         </section>
 
         <form method="post" action="<?php echo $this->url(array('u' => $this->username), 'auth', true); ?>">
-            <input type="submit" value="Authenticate" />
+            <input class="button oversized" type="submit" value="Authenticate" />
         </form>
     </section>

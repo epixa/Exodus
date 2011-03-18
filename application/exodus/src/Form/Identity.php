@@ -6,7 +6,8 @@
 namespace Exodus\Form;
 
 use Epixa\Form\BaseForm,
-    Core\Validator\AlnumUnderscore as AlnumValidator;
+    Core\Validator\AlnumUnderscore as AlnumValidator,
+    Zend_View_Interface as View;
 
 /**
  * This form contains all of the base fields for users with their default 
@@ -32,10 +33,37 @@ class Identity extends BaseForm
                 $alnumValidator
             )
         ));
-
+        
+        $this->getElement('username')->removeDecorator('Errors');
+        
         $this->addElement('submit', 'submit', array(
             'ignore' => true,
+            'attribs' => array(
+                'class' => 'button'
+            ),
             'label' => 'Retrieve'
         ));
+    }
+    
+    /**
+     * {@inheritdoc}
+     * 
+     * In addition, the errors decorator is removed from the username element
+     * 
+     * @param  null|View $view
+     * @return string
+     */
+    public function render(View $view = null)
+    {
+        $username = $this->getElement('username');
+        if ($username) {
+            if ($username->hasErrors()) {
+                $this->addError('Please enter a valid twitter username');
+            }
+            
+            $username->removeDecorator('Errors');
+        }
+        
+        return parent::render($view);
     }
 }

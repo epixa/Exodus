@@ -50,6 +50,7 @@ class IndexController extends AbstractController
         
         $form = new IdentityForm();
         $form->setAction($this->view->url());
+        $form->setErrors($this->_helper->flashMessenger->getMessages());
         if ($username = $request->getParam('u', null)) {
             $form->populate(array('username' => $username));
         }
@@ -109,7 +110,7 @@ class IndexController extends AbstractController
         
         $form = new IdentityForm(array('disableHash' => true));
         if (!$form->isValid(array('username' => $username))) {
-            $this->_helper->flashMessenger->addMessage('Please enter a valid username');
+            $this->_helper->flashMessenger->addMessage('Please enter a valid twitter username');
             $this->_helper->redirector->gotoRouteAndExit(array('u' => $username), 'begin', true);
         }
         

@@ -6,8 +6,8 @@
             <p>We could not find any users that this person follows on identica</p>
         <?php else: ?>
             <p><?php echo $this->escape($this->username); ?> follows 
-               <?php echo count($this->users) ?> people on twitter that also 
-               have accounts on identi.ca.</p>
+               <strong><?php echo count($this->users) ?></strong> people on 
+               twitter that also have accounts on identi.ca.</p>
             
             <table>
                 <thead>
@@ -21,7 +21,7 @@
                 <tbody>
                     <?php foreach($this->users as $user): ?>
                     <tr>
-                        <td><?php echo $this->escape($user->username); ?></td>
+                        <td>@<?php echo $this->escape($user->username); ?></td>
                         <td><?php echo $this->escape($user->name); ?></td>
                         <td><a href="<?php echo $this->twitterLink($user->username); ?>">Link</a></td>
                         <td><a href="<?php echo $this->identicaLink($user->username); ?>">Link</a></td>
