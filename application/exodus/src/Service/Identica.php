@@ -76,7 +76,7 @@ class Identica extends AbstractService
             $code = $response->responseCode;
             
             $lifetime = $this->_getCacheLifetimeByCode($code);
-            $cache->save($code, $key, $lifetime);
+            $cache->save($code, $key, array(), $lifetime);
         }
         
         return $code == 200 ? true : false;

@@ -263,7 +263,7 @@ class Twitter extends AbstractService
             $this->_loadFriends($collection, $username);
             
             $lifetime = $config->cache->get('friends', false);
-            $cache->save($collection, $key, $lifetime);
+            $cache->save($collection, $key, array(), $lifetime);
         }
         
         return $collection;
