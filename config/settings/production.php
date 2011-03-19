@@ -55,6 +55,9 @@ return array(
     'services' => array(
         'twitter' => array(
             'url' => 'https://api.twitter.com',
+            'cache' => array(
+                'friends' => 43200 // 12 hours
+            ),
             'oauth' => array( // remove or unset entire oauth array to disable
                 'callbackUrl' => 'http://exodus.orchestra.io/begin',
                 'siteUrl' => 'https://api.twitter.com/oauth',
@@ -63,7 +66,11 @@ return array(
             )
         ),
         'identica' => array(
-            'url' => 'http://identi.ca/api'
+            'url' => 'http://identi.ca/api',
+            'cache' => array(
+                'userFound' => null, // indefinitely
+                'userNotFound' => 21600 // 6 hours
+            )
         )
     )
 );

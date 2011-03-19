@@ -49,14 +49,6 @@ class Twitter extends AbstractService
     
     
     /**
-     * Set up the cache lifetime for this service
-     */
-    public function __construct()
-    {
-        $this->getCache()->setLifetime(3600);
-    }
-    
-    /**
      * Gets the session namespace for this service
      * 
      * If no session namespace is set, a new one is created with the name of 
@@ -265,9 +257,13 @@ class Twitter extends AbstractService
         $key = sha1(serialize(array('twitter-friends-of-username' => $username)));
         
         if (($collection = $cache->load($key)) === false) {
+            $config = $this->getConfig()->twitter;
+            
             $collection = new FollowerCollection();
             $this->_loadFriends($collection, $username);
-            $cache->save($collection, $key);
+            
+            $lifetime = $config->cache->get('friends', false);
+            $cache->save($collection, $key, $lifetime);
         }
         
         return $collection;

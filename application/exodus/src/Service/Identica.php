@@ -25,14 +25,6 @@ use HttpRequest,
 class Identica extends AbstractService
 {
     /**
-     * Set up the cache lifetime for this service
-     */
-    public function __construct()
-    {
-        $this->getCache()->setLifetime(null);
-    }
-    
-    /**
      * Gets all users on identica that have the same username as the given 
      * twitter user's followees
      * 
@@ -67,6 +59,7 @@ class Identica extends AbstractService
 
         if (($code = $cache->load($key)) === false) {
             $config = $this->getConfig()->identica;
+            
             $request = new HttpRequest($config->url . '/users/show.json', HttpRequest::METH_HEAD);
             $request->setQueryData(array(
                 'screen_name' => $username
@@ -82,9 +75,38 @@ class Identica extends AbstractService
             
             $code = $response->responseCode;
             
-            $cache->save($code, $key);
+            $lifetime = $this->_getCacheLifetimeByCode($code);
+            $cache->save($code, $key, $lifetime);
         }
         
         return $code == 200 ? true : false;
+    }
+    
+    
+    /**
+     * Gets a specific cache lifetime for the given code
+     * 
+     * @param  integer $code
+     * @return boolean|integer 
+     */
+    protected function _getCacheLifetimeByCode($code)
+    {
+        $config = $this->getConfig()->identica;
+        
+        switch ($code) {
+            case 200:
+                $lifetime = $config->cache->get('userFound', false);
+                break;
+            
+            case 404:
+                $lifetime = $config->cache->get('userNotFound', false);
+                break;
+            
+            default:
+                $lifetime = false;
+                break;
+        }
+        
+        return $lifetime;
     }
 }
