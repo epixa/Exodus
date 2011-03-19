@@ -31,14 +31,15 @@ Caching
 
 Every time a user's friends are queried from twitter, the resulting collection 
 (after all paginated requests are made) is cached for all subsequent requests 
-for two hours.
+for twelve hours.
 
 The result of every request for a user on identi.ca (found or not) is cached 
-indefinitely.  Obviously it would be ideal not to have so many requests being 
-made to identi.ca, but since that is the api we have to work with, this caching 
-scheme means that exodus gets faster the more people queries are made.  If two 
-different users follow many of the same people, then queries to each user will 
-benefit from the cache of the other.
+individually.  If a user is found, the request is cached indefinitely.  If a 
+user is not found, the request is cached for six hours.  Obviously it would be 
+ideal not to have so many requests being made to identi.ca, but since that is 
+the api we have to work with, this caching scheme means that exodus gets faster 
+the more people queries are made.  If two different users follow many of the 
+same people, then queries to each user will benefit from the cache of the other.
 
 --------------------------------------------------------------------------------
 
