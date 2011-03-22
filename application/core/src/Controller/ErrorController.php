@@ -5,7 +5,10 @@
 
 namespace Core\Controller;
 
-use Epixa\Controller\AbstractController;
+use Epixa\Controller\AbstractController,
+    Epixa\Exception\NotFoundException,
+    Core\Exception\DeniedException,
+    Zend_Controller_Plugin_ErrorHandler as ErrorHandlerPlugin;
 
 /**
  * Error controller
@@ -20,15 +23,44 @@ use Epixa\Controller\AbstractController;
 class ErrorController extends AbstractController
 {
     /**
+     * @var array
+     */
+    protected $_errorTypes404 = array(
+        ErrorHandlerPlugin::EXCEPTION_NO_ROUTE,
+        ErrorHandlerPlugin::EXCEPTION_NO_CONTROLLER,
+        ErrorHandlerPlugin::EXCEPTION_NO_ACTION
+    );
+
+    
+    /**
      * Handle all application level exceptions
      */
     public function errorAction()
     {
+        $this->_helper->viewRenderer->setNoRender(true);
+
         $error = $this->_getParam('error_handler', null);
-        if (null !== $error) {
-            var_dump($error->exception);
+        $exception = $error->exception;
+
+        $httpStatusCode = 500;
+        $template = 'error';
+        if ($exception instanceof NotFoundException || in_array($error->type, $this->_errorTypes404)) {
+            $httpStatusCode = 404;
+            $template = 'not-found';
+        } else if ($exception instanceof DeniedException) {
+            $httpStatusCode = 403;
+            $template = 'denied';
         }
-        
-        die('<p>Core\Controller\ErrorController::errorAction()</p>');
+
+        $this->getResponse()->clearBody();
+        $this->getResponse()->setHttpResponseCode($httpStatusCode);
+
+        $this->render($template);
+
+        $debug = $this->getInvokeArg('bootstrap')->getOption('debug');
+        if (isset($debug['renderExceptions']) && $debug['renderExceptions']) {
+            $this->view->exception = $exception;
+            $this->render('debug/exception');
+        }
     }
 }

@@ -75,6 +75,11 @@ table th, td {
     padding: 5px;
 }
 
+#error-debug-exception {
+    height: 400px;
+    width: 100%;
+}
+
 .form-errors ul {
     list-style: none;
     margin: 0 0 10px;

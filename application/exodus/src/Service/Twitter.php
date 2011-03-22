@@ -7,7 +7,7 @@ namespace Exodus\Service;
 
 use HttpRequest,
     Exodus\Model\User as UserModel,
-    Exodus\Collection\Follower as FollowerCollection,
+    Exodus\Collection\Friend as FriendCollection,
     Epixa\Service\Twitter\RestApi as TwitterRestApi,
     Zend_Cache as Cache,
     Zend_Session_Namespace as SessionNamespace,
@@ -259,7 +259,7 @@ class Twitter extends AbstractService
         if (($collection = $cache->load($key)) === false) {
             $config = $this->getConfig()->twitter;
             
-            $collection = new FollowerCollection();
+            $collection = new FriendCollection();
             $this->_loadFriends($collection, $username);
             
             $lifetime = $config->cache->get('friends', false);
@@ -283,11 +283,11 @@ class Twitter extends AbstractService
     /**
      * Recursively loads all of the users that the given user follows
      * 
-     * @param FollowerCollection $collection
-     * @param string             $username
-     * @param integer            $cursor 
+     * @param FriendCollection $collection
+     * @param string           $username
+     * @param integer          $cursor
      */
-    protected function _loadFriends(FollowerCollection $collection, $username, $cursor = -1)
+    protected function _loadFriends(FriendCollection $collection, $username, $cursor = -1)
     {
         $config = $this->getConfig()->twitter;
         
@@ -312,11 +312,11 @@ class Twitter extends AbstractService
         
         if ($body->users->user->count() > 0) {
             foreach($body->users->user as $user) {
-                $follower = new UserModel();
-                $follower->id = (int)$user->id;
-                $follower->name = (string)$user->name;
-                $follower->username = (string)$user->screen_name;
-                $collection->add($follower);
+                $friend = new UserModel();
+                $friend->id = (int)$user->id;
+                $friend->name = (string)$user->name;
+                $friend->username = (string)$user->screen_name;
+                $collection->add($friend);
             }
         }
         

@@ -50,6 +50,7 @@ return array(
         )
     ),
     'debug' => array(
+        'renderExceptions' => false, // enable to render any exceptions to screen: do NOT enable in production
         'showExodusLinks' => false // enable to show an exodus link for each person on friends table
     ),
     'services' => array(

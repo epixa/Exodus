@@ -19,7 +19,7 @@ use Exodus\Model\User as UserModel,
  * @license    http://github.com/epixa/Exodus/blob/master/LICENSE New BSD
  * @author     Court Ewing (court@epixa.com)
  */
-class Follower implements Countable, IteratorAggregate, ArrayAccess
+class Friend implements Countable, IteratorAggregate, ArrayAccess
 {
     /**
      * @var array

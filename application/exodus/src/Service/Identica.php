@@ -7,7 +7,7 @@ namespace Exodus\Service;
 
 use HttpRequest,
     Exodus\Model\User as UserModel,
-    Exodus\Collection\Follower as FollowerCollection,
+    Exodus\Collection\Friend as FriendCollection,
     Zend_Cache as Cache,
     Epixa\Exception\NotFoundException,
     RuntimeException;
@@ -29,20 +29,20 @@ class Identica extends AbstractService
      * twitter user's followees
      * 
      * @param  strings $username 
-     * @return FollowerCollection
+     * @return FriendCollection
      */
     public function twitterIntersect($username)
     {
         $twitterService = new Twitter();
-        $followers = $twitterService->getFriendsByUsername($username);
+        $friends = $twitterService->getFriendsByUsername($username);
         
-        foreach ($followers as $key => $follower) {
-            if (!$this->usernameExists($follower->username)) {
-                unset($followers[$key]);
+        foreach ($friends as $key => $friend) {
+            if (!$this->usernameExists($friend->username)) {
+                unset($friends[$key]);
             }
         }
         
-        return $followers;
+        return $friends;
     }
     
     /**
