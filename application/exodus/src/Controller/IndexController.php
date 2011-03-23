@@ -115,10 +115,12 @@ class IndexController extends AbstractController
         }
         
         $username = $form->getValue('username');
+        $totalTwitterFriends = 0;
         
         $identicaService = new IdenticaService();
-        $this->view->users = $identicaService->twitterIntersect($username);
+        $this->view->users = $identicaService->twitterIntersect($username, $totalTwitterFriends);
         $this->view->username = $username;
+        $this->view->totalTwitterFriends = $totalTwitterFriends;
     }
     
     /**

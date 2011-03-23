@@ -1,7 +1,7 @@
 
     <section>
-        <h1>Users followed by <?php echo $this->escape($this->username); ?></h1>
-        
+        <h1>Users followed by <?php echo $this->escape($this->username); ?> (<?php echo $this->totalTwitterFriends; ?> friends)</h1>
+
         <?php if (count($this->users) == 0): ?>
             <p>We could not find any users that this person follows on identica</p>
         <?php else: ?>

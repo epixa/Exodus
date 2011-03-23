@@ -28,13 +28,18 @@ class Identica extends AbstractService
      * Gets all users on identica that have the same username as the given 
      * twitter user's followees
      * 
-     * @param  strings $username 
+     * @param  strings      $username
+     * @param  null|integer $count
      * @return FriendCollection
      */
-    public function twitterIntersect($username)
+    public function twitterIntersect($username, &$count = null)
     {
         $twitterService = new Twitter();
         $friends = $twitterService->getFriendsByUsername($username);
+
+        if ($count !== null) {
+            $count = count($friends);
+        }
         
         foreach ($friends as $key => $friend) {
             if (!$this->usernameExists($friend->username)) {
