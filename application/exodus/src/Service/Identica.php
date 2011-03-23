@@ -71,14 +71,14 @@ class Identica extends AbstractService
             ));
             $response = $request->send();
 
-            if ($response->responseCode != 200 && $response->responseCode != 404) {
+            $code = $response->getResponseCode();
+
+            if ($code != 200 && $code != 404) {
                 throw new RuntimeException(sprintf(
                     'Could not determine the existence of identica user `%s`: %s', 
-                    $username, $response->responseStatus
+                    $username, $response->getResponseStatus()
                 ));
             }
-            
-            $code = $response->responseCode;
             
             $lifetime = $this->_getCacheLifetimeByCode($code);
             $cache->save($code, $key, array(), $lifetime);
