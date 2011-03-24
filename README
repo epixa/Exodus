@@ -1,13 +1,13 @@
-Exodus - control your connections
---------------------------------------------------------------------------------
+# Exodus - control your connections
+
 
 The Exodus App can be used to determine which users a person follows on twitter 
 have identical accounts on identi.ca.  Any user can be queried by anyone.  It is
 built with the Epixa library on Zend Framework and requires PHP 5.3.
 
---------------------------------------------------------------------------------
 
-How does it work?
+
+# How does it work?
 
 Given a username, exodus queries the twitter api for all of the people that the 
 given user follows (the user's friends).  It queries the api through Zend 
@@ -25,9 +25,8 @@ The collection of all users that are on both twitter and identi.ca are then
 rendered to the screen in a table with links to both their twitter and identi.ca
 profiles.
 
---------------------------------------------------------------------------------
 
-Caching
+# Caching
 
 Every time a user's friends are queried from twitter, the resulting collection 
 (after all paginated requests are made) is cached for all subsequent requests 
@@ -41,9 +40,8 @@ the api we have to work with, this caching scheme means that exodus gets faster
 the more people queries are made.  If two different users follow many of the 
 same people, then queries to each user will benefit from the cache of the other.
 
---------------------------------------------------------------------------------
 
-Authentication
+# Authentication
 
 Twitter authentication is performed via OAuth and is enforced installation-wide 
 by configuration settings.  If you do not enable OAuth configuration, then 
@@ -60,10 +58,12 @@ Authenticated requests to Twitter have a rate limit of 350 requests per hour per
 user.  In other words, the burden of rate limits is shifted to the people using 
 your application rather than the application itself.
 
---------------------------------------------------------------------------------
 
-Installation
 
-1. Clone this repo
-2. Add or remove oauth settings to config/settings/<environment>.php
-3. If you specify a specific directory for filesystem caching, make it writable
+# Installation
+
+You will need a web-server (Apache, Nginx) and PHP 5.3.x to run this. Then:
+
+  1. Clone this repo
+  2. Add or remove oauth settings to config/settings/<environment>.php
+  3. If you specify a specific directory for filesystem caching, make it writable
