@@ -1,2 +1,4 @@
 .idea/
+nbproject/
+cache/*
 .DS_Store

@@ -60,7 +60,7 @@ return array(
                 'friends' => 43200 // 12 hours
             ),
             'oauth' => array( // remove or unset entire oauth array to disable
-                'callbackUrl' => 'http://exodus.orchestra.io/begin',
+                'callbackUrl' => 'http://CURRENT_DOMAIN/begin',
                 'siteUrl' => 'https://api.twitter.com/oauth',
                 'consumerKey' => 'TWITTER_CONSUMER_KEY',
                 'consumerSecret' => 'TWITTER_CONSUMER_SECRET'
