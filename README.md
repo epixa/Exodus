@@ -65,5 +65,5 @@ your application rather than the application itself.
 You will need a web-server (Apache, Nginx) and PHP 5.3.x to run this. Then:
 
   1. Clone this repo
-  2. Add or remove oauth settings to config/settings/<environment>.php
+  2. Add or remove oauth settings to config/settings/&lt;environment&gt;.php
   3. If you specify a specific directory for filesystem caching, make it writable
